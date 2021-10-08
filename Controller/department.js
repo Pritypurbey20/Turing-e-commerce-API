@@ -2,7 +2,9 @@ const environment = process.env.ENVIRONMENT || 'development'
 const config = require('../knexfile')[environment];
 const knex = require('knex')(config)
 
-exports.department = function(req,res){
+//For getting all the departments:
+
+department = function(req,res){
     knex('department')
     .select('*')
     .then((posts)=>{
@@ -17,7 +19,9 @@ exports.department = function(req,res){
     })
 }
 
-exports.department_by_department_id = function(req,res){
+//For getting department by department_id:
+
+department_by_department_id = function(req,res){
     knex('department')
     .select('*')
     .where('department_id', req.params.department_id)
@@ -29,3 +33,4 @@ exports.department_by_department_id = function(req,res){
     })
 }
 
+module.exports = {department , department_by_department_id}

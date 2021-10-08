@@ -4,7 +4,9 @@ const knex = require('knex')(config)
 
 //TAX:
 
-exports.tax = function(req,res){
+//For getting all the tax:
+
+tax = function(req,res){
     knex('tax')
     .select('*')
     .then((data)=>{
@@ -15,8 +17,9 @@ exports.tax = function(req,res){
     })
 }
 
+//For getting tax by tax_id:
 
-exports.tax_by_tax_id = function(req,res){
+tax_by_tax_id = function(req,res){
     knex('tax')
     .select('tax.tax_id','tax.tax_type','tax.tax_percentage')
     .where('tax.tax_id',req.params.tax_id)
@@ -27,3 +30,5 @@ exports.tax_by_tax_id = function(req,res){
         res.send(err)
     })
 }
+
+module.exports = {tax , tax_by_tax_id}

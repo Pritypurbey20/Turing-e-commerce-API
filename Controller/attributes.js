@@ -2,9 +2,9 @@ const environment = process.env.ENVIRONMENT || 'development'
 const config = require('../knexfile')[environment];
 const knex = require('knex')(config)
 
-//ATTRIBUTES:
+// For getting the attributes: 
 
-exports.attributes = function(req,res){
+attributes = function(req,res){
     knex('attribute')
     .select('*')
     .then((data)=>{
@@ -15,7 +15,9 @@ exports.attributes = function(req,res){
     })
 }
 
-exports.attibutes_by_attribute_id = function(req,res){
+//For getting the attributes by attributes_id:
+
+attibutes_by_attribute_id = function(req,res){
     knex('attribute')
     .select('*')
     .where('attribute_id',req.params.attribute_id)
@@ -27,7 +29,9 @@ exports.attibutes_by_attribute_id = function(req,res){
     })
 }
 
-exports.attributes_by_value = function(req,res){
+//For getting the attributes by value:
+
+attributes_by_value = function(req,res){
     knex('attribute_value')
     .select('attribute_value.attribute_value_id','attribute_value.value')
     .join('attribute','attribute_value.attribute_value_id','=','attribute.attribute_id')
@@ -40,8 +44,9 @@ exports.attributes_by_value = function(req,res){
     })
 }
 
+//For getting the attributes by product_id:
 
-exports.attributes_by_product_id = function(req,res){
+attributes_by_product_id = function(req,res){
     knex('attribute')
     .select('attribute.name','product_attribute.attribute_value_id','attribute_value.value')
     .join("attribute_value", "attribute.attribute_id", "=", "attribute_value.attribute_id")
@@ -54,3 +59,5 @@ exports.attributes_by_product_id = function(req,res){
         res.send(err)
     })
 }
+
+module.exports = { attributes , attibutes_by_attribute_id , attributes_by_value , attributes_by_product_id}

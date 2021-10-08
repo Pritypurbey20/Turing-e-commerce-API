@@ -2,7 +2,9 @@ const environment = process.env.ENVIRONMENT || 'development'
 const config = require('../knexfile')[environment];
 const knex = require('knex')(config)
 
-exports.categories = function(req,res){
+//For getting all the categories:
+
+categories = function(req,res){
     knex('category')
     .select('*')
     .then((data)=>{
@@ -13,7 +15,9 @@ exports.categories = function(req,res){
     })
 }
 
-exports.categories_by_category_id = function(req,res){
+//For getting the categories by category_id:
+
+categories_by_category_id = function(req,res){
     knex('category')
     .select('*')
     .where('category_id',req.params.category_id)
@@ -25,7 +29,9 @@ exports.categories_by_category_id = function(req,res){
     })
 }
 
-exports.categories_by_product_id = function(req,res){
+//For getting the categories by product_id:
+
+categories_by_product_id = function(req,res){
     knex('category')
     .select('category.category_id','category.department_id','category.name')
     .join('product_category','category.category_id','=','product_category.category_id')
@@ -37,7 +43,9 @@ exports.categories_by_product_id = function(req,res){
     })
 }
 
-exports.categories_by_department_id = function(req,res){
+//For getting the categories by department_id:
+
+categories_by_department_id = function(req,res){
     knex('category')
     .select('category.category_id','category.name','category.description')
     .join('department','category.category_id','=','department.department_id')
@@ -49,3 +57,5 @@ exports.categories_by_department_id = function(req,res){
         res.send(err)
     })
 }
+
+module.exports = { categories ,categories_by_category_id, categories_by_product_id,categories_by_department_id }

@@ -2,7 +2,9 @@ const environment = process.env.ENVIRONMENT || 'development'
 const config = require('../knexfile')[environment];
 const knex = require('knex')(config)
 
-exports.products = function(req,res){
+//To get all the products:
+
+products = function(req,res){
     knex('product')
     .select('*')
     .then((data)=>{
@@ -13,7 +15,9 @@ exports.products = function(req,res){
     })
 }
 
-exports.products_by_products_id = function(req,res){
+//To get products by product_id:
+
+products_by_products_id = function(req,res){
     knex('product')
     .select('*')
     .where('product_id',req.params.product_id)
@@ -25,7 +29,9 @@ exports.products_by_products_id = function(req,res){
     })
 }
 
-exports.products_by_category_id = function(req,res){
+//To get products by category_id:
+
+products_by_category_id = function(req,res){
     knex('product')
     .select('product.product_id','product.name','product.description','product.price','product.discounted_price','product.thumbnail')
     .join('product_category','product.product_id','=','product_category.category_id')
@@ -42,7 +48,9 @@ exports.products_by_category_id = function(req,res){
     })
 }
 
-exports.products_by_department_id = function(req, res){
+//To get products by department_id:
+
+products_by_department_id = function(req, res){
     knex.from('product')
         .join("product_category", "product.product_id", "product_category.product_id")
         .join("category", "category.category_id", "product_category.category_id")
@@ -60,7 +68,9 @@ exports.products_by_department_id = function(req, res){
         })
 }
 
-exports.product_by_details = function(req,res){
+//To get products by details:
+
+product_by_details = function(req,res){
     knex('product')
     .select("product.product_id", "product.name", "product.description", "product.price", "product.discounted_price", "product.image", "product.image_2")
     .where("product_id", req.params.product_id)
@@ -72,7 +82,9 @@ exports.product_by_details = function(req,res){
     })
 }
 
-exports.products_by_location = function(req,res){
+//To get products by location:
+
+products_by_location = function(req,res){
     knex('product')
     .select("category.category_id", "category.name as category_name", "department.department_id", "department.name as department_name")
     .join('product_category', 'product.product_id', 'product_category.product_id')
@@ -86,7 +98,9 @@ exports.products_by_location = function(req,res){
     })
 }
 
-exports.products_by_review = function(req,res){
+//To get products by review:
+
+products_by_review = function(req,res){
     knex('review')
     .select('product.name','review.review','review.rating','review.created_on')
     .join('product','review.product_id','product.product_id')
@@ -99,7 +113,9 @@ exports.products_by_review = function(req,res){
     })
 }
 
-exports.products_post_review = function(req,res){
+//To post product review:
+
+products_post_review = function(req,res){
     knex('review')
     .insert({
         review : req.body.review , rating : req.body.rating , created_on : new Date() , customer_id : "1",
@@ -114,3 +130,5 @@ exports.products_post_review = function(req,res){
     })
 
 }
+
+module.exports = {products, products_by_products_id, products_by_category_id,products_by_department_id,product_by_details,products_by_location,products_by_review,products_post_review}
